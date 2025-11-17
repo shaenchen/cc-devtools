@@ -1,6 +1,6 @@
 {
   "name": "@shaenchen/cc-devtools",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A modular developer toolkit for Claude Code that provides kanban project management, persistent memory, implementation planning, and source code mapping capabilities.",
   "main": "dist/cli/index.js",
   "bin": {
