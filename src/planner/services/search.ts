@@ -64,7 +64,7 @@ export function filterByStatus(plans: Plan[], includeAll: boolean): Plan[] {
     return plans;
   }
 
-  return plans.filter(p => p.status === 'planning' || p.status === 'in_progress');
+  return plans.filter(p => p.status === 'planning' || p.status === 'in_progress' || p.status === 'on_hold');
 }
 
 /**
