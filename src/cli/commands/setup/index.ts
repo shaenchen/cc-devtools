@@ -58,7 +58,7 @@ async function getFeatureSelection(providedFeatures?: string[]): Promise<string[
         }
       }
 
-      console.error('\nValid features: kanban, memory, planner, source-code-mapper, clipboard, workflow');
+      console.error('\nValid features: kanban, memory, planner, source-code-mapper, documentation-indexer, clipboard, workflow');
       process.exit(1);
     }
 
@@ -88,6 +88,11 @@ async function getFeatureSelection(providedFeatures?: string[]): Promise<string[
       description: 'Semantic code search and mapping',
     },
     {
+      name: 'Documentation Indexer',
+      value: 'documentation-indexer',
+      description: 'Semantic documentation search',
+    },
+    {
       name: 'Clipboard',
       value: 'clipboard',
       description: 'Copy content to system clipboard',
@@ -102,7 +107,7 @@ async function getFeatureSelection(providedFeatures?: string[]): Promise<string[
   return multiSelect(
     'Which features would you like to enable?',
     choices,
-    ['kanban', 'memory', 'planner', 'source-code-mapper', 'clipboard', 'workflow'], // Default to all features
+    ['kanban', 'memory', 'planner', 'source-code-mapper', 'documentation-indexer', 'clipboard', 'workflow'], // Default to all features
     {
       workflow: ['kanban'], // Workflow requires kanban
     }
