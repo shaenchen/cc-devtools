@@ -21,6 +21,10 @@ const FEATURE_INFO = {
     name: 'Source Code Mapper',
     mcpServerName: 'cc-devtools-source-code-mapper',
   },
+  'documentation-indexer': {
+    name: 'Documentation Indexer',
+    mcpServerName: 'cc-devtools-documentation-indexer',
+  },
   workflow: {
     name: 'Workflow',
     mcpServerName: '',
@@ -34,6 +38,7 @@ interface EnabledFeatures {
   memory: boolean;
   planner: boolean;
   'source-code-mapper': boolean;
+  'documentation-indexer': boolean;
   workflow: boolean;
 }
 
@@ -48,6 +53,7 @@ async function getEnabledFeatures(projectRoot: string): Promise<EnabledFeatures>
     memory: false,
     planner: false,
     'source-code-mapper': false,
+    'documentation-indexer': false,
     workflow: false,
   };
 
@@ -167,6 +173,12 @@ No cc-devtools features are currently enabled. Run \`npx cc-devtools setup\` to 
   if (enabled['source-code-mapper']) {
     neverAskItems.push(
       'Finding code/files (cc-devtools-source-code-mapper search_code, get_file_info, query_imports) - **ALWAYS use Source Code Mapper before Grep/Glob/Read for symbol searches**'
+    );
+  }
+
+  if (enabled['documentation-indexer']) {
+    neverAskItems.push(
+      'Finding documentation (cc-devtools-documentation-indexer search_docs) - **ALWAYS use Documentation Indexer to search project documentation**'
     );
   }
 
@@ -292,6 +304,34 @@ No cc-devtools features are currently enabled. Run \`npx cc-devtools setup\` to 
 `;
   }
 
+  // Documentation Indexer section
+  if (enabled['documentation-indexer']) {
+    content += `## Documentation Indexer
+
+**CRITICAL:** Use documentation indexer PROACTIVELY to find project documentation before asking the user or searching manually. **NEVER** grep for documentation when you can search semantically.
+
+**ALWAYS use \`search_docs\` (cc-devtools-documentation-indexer) when:**
+- User asks "how do I...", "what is...", or "where is documentation for..." (**NEVER** ask permission)
+- Need to understand project architecture, patterns, or conventions
+- Looking for setup instructions, configuration guides, or API documentation
+- Searching for examples or best practices documented in the project
+- Need to understand project-specific terminology or concepts
+
+**What gets indexed:**
+- Markdown files (README.md, docs/, etc.)
+- API documentation
+- Architecture decision records (ADRs)
+- Contributing guidelines
+- Project wikis and guides
+
+**Search capabilities:**
+- Semantic search: Find documentation by meaning, not just keywords
+- Returns relevant sections with context
+- Includes file paths and line numbers for reference
+
+`;
+  }
+
   // Tool combination patterns (concise)
   if (enabled.kanban && enabled.planner) {
     content += `
@@ -326,6 +366,10 @@ No cc-devtools features are currently enabled. Run \`npx cc-devtools setup\` to 
     summaryPoints.push('Use Source Code Mapper first to find code (never guess paths).');
   }
 
+  if (enabled['documentation-indexer']) {
+    summaryPoints.push('Use Documentation Indexer first to find documentation (never grep manually).');
+  }
+
   if (enabled.planner) {
     summaryPoints.push('Evaluate complexity before starting work - create plans proactively when uncertain.');
   }
@@ -333,7 +377,7 @@ No cc-devtools features are currently enabled. Run \`npx cc-devtools setup\` to 
   // Build dynamic "Be proactive" bullet based on enabled features
   const proactiveActions: string[] = [];
 
-  if (enabled.memory || enabled['source-code-mapper']) {
+  if (enabled.memory || enabled['source-code-mapper'] || enabled['documentation-indexer']) {
     proactiveActions.push('search/store without asking');
   }
 

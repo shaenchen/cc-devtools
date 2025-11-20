@@ -15,6 +15,7 @@
 - **Persistent Memory** - Store and search project knowledge with semantic search
 - **Implementation Planner** - Create, track, and search implementation plans with tasks
 - **Source Code Mapper** - Index and search your codebase with semantic understanding
+- **Documentation Indexer** - Semantic documentation search for markdown, text, and other doc formats
 - **Workflow Orchestration** - Automated solo developer workflow with state machine and AI code reviews
 - **Clipboard** - Copy generated content directly to system clipboard
 
@@ -150,6 +151,7 @@ The tools are now available through Claude Code's MCP tools:
 - `search_code` - Search code symbols semantically
 - `query_imports` - Query import relationships
 - `get_file_info` - Get file symbol information
+- `search_docs` - Search documentation with semantic/exact/fuzzy modes
 - `clipboard_write` - Copy content to system clipboard
 
 ## Managing Features
@@ -416,6 +418,32 @@ Index and search your codebase with semantic understanding.
 - `get_file_info` - Get symbols and imports for specific files
 
 [📖 Full Source Code Mapper Documentation](docs/source-code-mapper/)
+
+### Documentation Indexer Tool
+
+Index and search your documentation with semantic understanding.
+
+**Key Features:**
+- Works out-of-the-box with heuristic context generation (no LLM API calls)
+- Multi-format support: Markdown, reStructuredText, AsciiDoc, plain text
+- Three search modes: semantic, exact, and fuzzy
+- Smart chunking based on document structure (headings, paragraphs)
+- Automatic index updates via file watching
+- Efficient MessagePack storage
+- Fast context preview for quick result identification
+
+**Storage:** `cc-devtools/.cache/documentation-index.msgpack`
+
+**Format Support:**
+- Markdown (`.md`, `.markdown`) - Full heading hierarchy, code blocks, lists
+- reStructuredText (`.rst`) - Underline/overline headings, directives
+- AsciiDoc (`.adoc`, `.asciidoc`) - Equal-sign headings, blocks
+- Plain text (`.txt`) - Paragraph-based chunking
+
+**MCP Tools:**
+- `search_docs` - Search documentation with semantic/exact/fuzzy modes
+
+[📖 Full Documentation Indexer Documentation](docs/documentation-indexer/)
 
 ### Clipboard Tool
 
@@ -747,11 +775,12 @@ my-project/
     │   ├── decision-tree.yaml       # Decision tree (optional custom)
     │   └── reviewers.yaml           # Reviewer configuration
     └── .cache/                      # Ephemeral cache files (gitignored)
-        ├── source-code-index.msgpack  # Source code index
-        ├── kanban-embeddings.msgpack  # Kanban search cache
-        ├── memory-embeddings.msgpack  # Memory search cache
-        ├── planner-embeddings.msgpack # Planner search cache
-        └── web-tokens.msgpack         # Web server auth tokens
+        ├── source-code-index.msgpack     # Source code index
+        ├── documentation-index.msgpack   # Documentation index
+        ├── kanban-embeddings.msgpack     # Kanban search cache
+        ├── memory-embeddings.msgpack     # Memory search cache
+        ├── planner-embeddings.msgpack    # Planner search cache
+        └── web-tokens.msgpack            # Web server auth tokens
 ```
 
 ## Configuration
@@ -760,7 +789,7 @@ my-project/
 
 The `setup` command accepts these flags:
 
-- `--features=<list>` - Comma-separated list of features to enable (kanban, memory, planner, source-code-mapper, workflow, clipboard)
+- `--features=<list>` - Comma-separated list of features to enable (kanban, memory, planner, source-code-mapper, documentation-indexer, workflow, clipboard)
 - `--gitignore` - Update .gitignore with cache exclusions
 - `--mcp` - Configure .mcp.json with MCP server entries
 - `--slash-commands` - Copy slash command templates to .claude/commands/
@@ -801,6 +830,7 @@ Each tool stores data in predictable locations:
 - **Memory:** `cc-devtools/memory.yaml`
 - **Planner:** `cc-devtools/plans/*.yaml`
 - **Source Code Mapper:** `cc-devtools/.cache/source-code-index.msgpack`
+- **Documentation Indexer:** `cc-devtools/.cache/documentation-index.msgpack`
 
 ### Gitignore
 

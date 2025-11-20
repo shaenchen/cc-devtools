@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+import { readFileSync } from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 import { addFeatureCommand } from './commands/add-feature/index.js';
 import { kanbanCommand } from './commands/kanban/index.js';
 import { perFileRunnerCommand } from './commands/per-file-runner/index.js';
@@ -13,7 +16,11 @@ import { workflowCommand } from './commands/workflow/index.js';
 import { formatErrorWithSuggestions } from './core/suggestions.js';
 import { ensureCcDevtoolsEnabled } from './utils/validation.js';
 
-const VERSION = '0.1.0';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const packageJsonPath = join(__dirname, '../../package.json');
+const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+const VERSION = packageJson.version as string;
 
 interface CommandHandler {
   handler: (args: string[]) => Promise<void> | void;

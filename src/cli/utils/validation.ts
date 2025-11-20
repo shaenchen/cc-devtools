@@ -18,7 +18,7 @@ export function isValidProjectRoot(projectRoot: string = process.cwd()): boolean
  * Validate feature names
  */
 export function validateFeatures(features: string[]): FeatureValidationResult {
-  const validFeatures = ['kanban', 'memory', 'planner', 'source-code-mapper', 'clipboard', 'workflow'];
+  const validFeatures = ['kanban', 'memory', 'planner', 'source-code-mapper', 'documentation-indexer', 'clipboard', 'workflow'];
   const valid: string[] = [];
   const invalid: string[] = [];
   const suggestions: Record<string, string | null> = {};
