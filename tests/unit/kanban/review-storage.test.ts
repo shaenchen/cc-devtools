@@ -19,7 +19,7 @@ describe('Review Storage (Integration)', () => {
   let reviewsDir: string;
 
   beforeEach(() => {
-    testDir = join(originalCwd, 'test-tmp-' + Date.now());
+    testDir = join(originalCwd, 'test-tmp-' + Date.now() + '-' + Math.random().toString(36).substring(7));
     reviewsDir = join(testDir, 'cc-devtools');
     mkdirSync(reviewsDir, { recursive: true });
 
