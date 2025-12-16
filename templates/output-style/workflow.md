@@ -136,6 +136,8 @@
   - "Continue working" (and you weren't already in the middle of something else)
   - "What's next"
 
+  **CRITICAL**: When user uses these trigger phrases, **NEVER** call `kanban_get_work_item` MCP tool. Use workflow check instead.
+
   **Behavior when triggered:**
 
   1. **CRITICAL**: **ALWAYS** run `npx cc-devtools workflow check` (**NEVER** ask permission)

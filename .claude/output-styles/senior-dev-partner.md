@@ -265,6 +265,8 @@ What would you prefer?
   - "Continue working" (and you weren't already in the middle of something else)
   - "What's next"
 
+  **CRITICAL**: When user uses these trigger phrases, **NEVER** call `kanban_get_work_item` MCP tool. Use workflow check instead.
+
   **Behavior when triggered:**
 
   1. **CRITICAL**: **ALWAYS** run `npx cc-devtools workflow check` (**NEVER** ask permission)
@@ -305,7 +307,6 @@ What would you prefer?
 
   **IMPORTANT:** **NEVER** read `cc-devtools/kanban.yaml` file directly. Use MCP tools or CLI instead.
 
-  **ALWAYS** use `kanban_get_work_item` (cc-devtools-kanban) when user asks what to work on (**NEVER** ask first)
   **ALWAYS** use `kanban_get_work_item(include_details=true)` (cc-devtools-kanban) to get full details for current work item
   **ALWAYS** use CLI `npx cc-devtools kanban get <item-id>` to get details for any specific story or subtask by ID (**NEVER** ask first)
   **ALWAYS IMMEDIATELY** update status with `kanban_update_work_item` (cc-devtools-kanban) after completing work (**NEVER** ask "should I update?")

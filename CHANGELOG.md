@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2025-12-16
+
+### Fixed
+
+- **Source Code Mapper**: Fixed catastrophic backtracking regex that caused parser to hang on TypeScript files with many braces. Replaced with efficient O(n) brace-counting algorithm.
+- **Workflow Integration**: When workflow feature is enabled, "what to work on" trigger phrases now correctly use `workflow check` instead of `kanban_get_work_item` MCP tool.
+
+### Changed
+
+- **Documentation**: Clarified review command terminology in workflow templates.
+
+## [0.2.0] - 2025-12-16
+
+### Added
+
+- **Documentation Indexer**: New tool for semantic documentation search. Indexes markdown documentation files and provides intelligent search across project docs.
+
+### Fixed
+
+- **CLI**: Version now reads from package.json instead of hardcoded value.
+- **Tests**: Prevented flaky tests caused by temp directory collisions.
+
+## [0.1.1] - 2025-11-17
+
+### Fixed
+
+- **Planner Search**: Fixed `on_hold` status not being included in `filterByStatus` function, which caused paused plans to not appear in search results.
+
 ## [0.1.0] - 2025-11-16
 
 ### Added - Initial Beta Release

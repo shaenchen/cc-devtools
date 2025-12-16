@@ -7,6 +7,34 @@ import { matchAll, getLineNumber, getCapture, createSymbol, createImport } from 
 
 import type { Parser, SymbolInfo, Import } from './types.js';
 
+/**
+ * Check if a position in the content is inside a class body.
+ * Uses brace counting instead of regex to avoid catastrophic backtracking.
+ */
+function isInsideClass(content: string, position: number): boolean {
+  const before = content.substring(0, position);
+
+  // Find the last class declaration before this position
+  const classPattern = /\bclass\s+\w+/g;
+  let lastClassIndex = -1;
+  let match;
+  while ((match = classPattern.exec(before)) !== null) {
+    lastClassIndex = match.index;
+  }
+
+  if (lastClassIndex === -1) return false;
+
+  // Count braces between class keyword and current position
+  // If braceCount > 0, we're inside the class body
+  let braceCount = 0;
+  for (let i = lastClassIndex; i < position; i++) {
+    if (content[i] === '{') braceCount++;
+    if (content[i] === '}') braceCount--;
+  }
+
+  return braceCount > 0;
+}
+
 const parseJavaScriptTypeScript : Parser = (filePath, content, _lines) => {
   const symbols: SymbolInfo[] = [];
   const imports: Import[] = [];
@@ -107,11 +135,8 @@ const parseJavaScriptTypeScript : Parser = (filePath, content, _lines) => {
       continue;
     }
 
-    // Check if this is inside a class (basic heuristic: look backwards for class keyword)
-    const contentBeforeMethod = content.substring(0, match.index);
-    const lastClassMatch = /class\s+\w+[^{]*\{(?:[^{}]*|\{[^}]*\})*$/m.exec(contentBeforeMethod);
-
-    if (lastClassMatch) {
+    // Check if this is inside a class using efficient brace counting
+    if (isInsideClass(content, match.index)) {
       const isPrivate = match[0].includes('private');
       symbols.push(createSymbol(name, 'function', startLine, filePath, {
         isExported: !isPrivate,

@@ -224,8 +224,13 @@ No cc-devtools features are currently enabled. Run \`npx cc-devtools setup\` to 
 
 **IMPORTANT:** **NEVER** read \`cc-devtools/kanban.yaml\` file directly. Use MCP tools or CLI instead.
 
-**ALWAYS** use \`kanban_get_work_item\` (cc-devtools-kanban) when user asks what to work on (**NEVER** ask first)
-**ALWAYS** use \`kanban_get_work_item(include_details=true)\` (cc-devtools-kanban) to get full details for current work item
+`;
+    // Only include this line if workflow is NOT enabled
+    if (!enabled.workflow) {
+      content += `**ALWAYS** use \`kanban_get_work_item\` (cc-devtools-kanban) when user asks what to work on (**NEVER** ask first)
+`;
+    }
+    content += `**ALWAYS** use \`kanban_get_work_item(include_details=true)\` (cc-devtools-kanban) to get full details for current work item
 **ALWAYS** use CLI \`npx cc-devtools kanban get <item-id>\` to get details for any specific story or subtask by ID (**NEVER** ask first)
 **ALWAYS IMMEDIATELY** update status with \`kanban_update_work_item\` (cc-devtools-kanban) after completing work (**NEVER** ask "should I update?")
 **ALWAYS** suggest \`/kanban-add-stories\` slash command for creating stories/subtasks (you **CANNOT** create via MCP tools)

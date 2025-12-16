@@ -8,7 +8,7 @@ This command orchestrates the complete code review workflow from start to finish
 
 ### Part 1: Run Automated Reviewers
 
-1. **Clean up any stale metadata and run the automated review script**
+1. **Clean up any stale metadata and run the review command**
 
    **First, clean up any stale metadata from previous runs:**
    ```bash
@@ -1023,7 +1023,7 @@ This command orchestrates the complete code review workflow from start to finish
   - Use past tense: "I reviewed...", "I checked...", "I found..."
 - **Round number detection**: Uses `get-round-reviewers` CLI command to determine next round
 - **File-based workflow**: ALL reviewers write to `.tmp/{reviewer-name}-review.txt` files
-- The automated-review script reads these files and stores them to reviews.yaml
+- The `npx cc-devtools workflow review` command reads these files and stores them to reviews.yaml
 - **Status management**: Reviewers do NOT change story status - it stays `in_review`
 - **Multiple reviewers supported**: All enabled reviewers run in parallel (configured in cc-devtools/workflow/reviewers.yaml)
 - **Independent reviews**: Each reviewer performs their review WITHOUT access to existing reviews - duplicates are expected and valuable
